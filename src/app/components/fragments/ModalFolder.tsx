@@ -10,6 +10,7 @@ const StyledBox = styled(Box)`
   color: white;
   padding: 36px 40px;
   border-radius: 10px;
+  outline: none;
   box-shadow: 1;
   width: 100%;
   display: flex;

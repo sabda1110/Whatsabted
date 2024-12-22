@@ -15,8 +15,16 @@ interface NotedItem {
   idUser: string;
 }
 
+interface FolderItem {
+  id: string;
+  title: string;
+  createDate: string;
+}
+
 interface NotedState {
   notes: NotedItem[];
+  folders: FolderItem[];
+  isOpenModalFolder: boolean;
   isLoading: boolean;
 }
 
@@ -25,4 +33,12 @@ interface ModalFolderProps {
   onClose: () => void;
   onConfirm: () => void;
   children: React.ReactNode;
+}
+
+interface IconProps {
+  width?: number;
+  height?: number;
+  color?: string;
+  onClick?: () => void;
+  className?: string;
 }

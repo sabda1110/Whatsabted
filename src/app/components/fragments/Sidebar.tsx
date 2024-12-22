@@ -1,6 +1,8 @@
 'use client';
 import dynamic from 'next/dynamic';
 import RecentItem from '../elements/RecentItem';
+import { useDispatch } from 'react-redux';
+import { updateModalFolder as updateModalFolderAction } from '@/app/model/slices/noted';
 
 const PencilIcon = dynamic(() => import('@/app/Icons/Pencil'), { ssr: false });
 const SearchIcon = dynamic(() => import('@/app/Icons/Search'), { ssr: false });
@@ -21,6 +23,11 @@ const ArchiveIcon = dynamic(() => import('@/app/Icons/Archive'), {
 });
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+
+  const updateModalFolder = () => {
+    dispatch(updateModalFolderAction(true));
+  };
   return (
     <div className=" w-full h-screen hidden md:block bg-customBg px-[20px] py-[30px]">
       <section className="header flex justify-between items-center">
@@ -63,7 +70,10 @@ const Sidebar = () => {
         <div className="menu-folders">
           <section className="menu-item-header flex items-center justify-between">
             <h3 className=" text-[14px] opacity-[60%]">Folders</h3>
-            <AddFolderIcon />
+            <AddFolderIcon
+              className="cursor-pointer"
+              onClick={updateModalFolder}
+            />
           </section>
           <section className="content">
             <section className="contet-sub mt-3 flex flex-col gap-4">

@@ -5,7 +5,11 @@ import FolderItem from '../Icons/FolderItem';
 import { ForwardRefEditor } from '../components/hooks/ForwardRefEditor';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { updateNoted as updateNotedAction } from '../model/slices/noted';
+import {
+  updateNoted as updateNotedAction,
+  updateFolders as updateFoldersAction,
+  updateModalFolder as updateModalFolderAction
+} from '../model/slices/noted';
 import ModalFolder from '../components/fragments/ModalFolder';
 import { TextField, Button } from '@mui/material';
 import { ButtonProps } from '@mui/material';
@@ -70,14 +74,43 @@ const NotedPage = () => {
     desc: 'Tulisakan Sesuatu',
     idUser: ''
   });
+
+  const [folderState, setFolderState] = useState<FolderItem>({
+    id: 'folder_01',
+    title: 'Work',
+    createDate: FormatDate()
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [folderName, setFolderName] = useState<String>('');
   const dispatch = useDispatch();
 
-  const noteds = useSelector((state: any) => state.noted.notes);
-  console.log(noteds, 'noteds');
+  const {
+    notes: noteds,
+    folders,
+    isOpenModalFolder
+  } = useSelector((state: { noted: NotedState }) => state.noted);
+  console.log(folders, 'noteds');
 
   const updateNoted = () => {
     dispatch(updateNotedAction(notedState));
+  };
+
+  const updateFolder = () => {
+    dispatch(updateFoldersAction(folderState));
+  };
+
+  const handleCloseModalFolder = () => {
+    dispatch(updateModalFolderAction(false));
+  };
+
+  // handle Create Folder
+  const handleCreateFolder = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFolderName(event.target.value);
+    setFolderState({
+      id: 'folder01',
+      title: event.target.value,
+      createDate: FormatDate()
+    });
   };
   return (
     <div className="grid grid-cols-custom-3 h-screen">
@@ -158,8 +191,8 @@ const NotedPage = () => {
         <button onClick={() => setIsModalOpen(true)}>Simpan</button>
       </section>
       <ModalFolder
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isOpenModalFolder}
+        onClose={handleCloseModalFolder}
         onConfirm={updateNoted}
       >
         <h2 className=" font-semibold text-[20px] text-[#54595E]">
@@ -172,6 +205,8 @@ const NotedPage = () => {
           id="outlined-basic"
           label="Folders"
           variant="outlined"
+          value={folderName}
+          onChange={handleCreateFolder}
           placeholder="Masukan judul"
           sx={{
             // marginTop: '10px',
@@ -183,7 +218,12 @@ const NotedPage = () => {
           // size="small"
           // className=" mt-3 w-56"
         />
-        <ColorButton variant="outlined" fullWidth>
+        <ColorButton
+          onClick={updateFolder}
+          variant="outlined"
+          fullWidth
+          disabled={folderName === ''}
+        >
           Yeah, Create Folder
         </ColorButton>
       </ModalFolder>
