@@ -19,3 +19,24 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.mdx-editor {
+  color: #ffffff !important;
+}
+
+.my-classname {
+  /* background-color: var(--background) !important; */
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--foreground) !important;
+  /* border-radius: 0px !important; */
+  /* background-color: rgba(255, 255, 255, 0.7) !important; */
+}
+
+.mdx-editor h1 {
+  color: #ffffff !important;
+}
+
+.mdx-editor h2 {
+  color: #ffffff !important;
+}
